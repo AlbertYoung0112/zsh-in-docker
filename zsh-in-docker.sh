@@ -121,7 +121,7 @@ cd /tmp
 
 # Install On-My-Zsh
 if [ ! -d $HOME/.oh-my-zsh ]; then
-    sh -c "$(curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" --unattended
+    proxychains4 sh -c "$(curl https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" --unattended
 fi
 
 # Generate plugin list
@@ -129,7 +129,7 @@ plugin_list=""
 for plugin in $PLUGINS; do
     if [ "`echo $plugin | grep -E '^http.*'`" != "" ]; then
         plugin_name=`basename $plugin`
-        git clone $plugin $HOME/.oh-my-zsh/custom/plugins/$plugin_name
+        proxychains4 git clone $plugin $HOME/.oh-my-zsh/custom/plugins/$plugin_name
     else
         plugin_name=$plugin
     fi
@@ -140,7 +140,7 @@ done
 if [ "`echo $THEME | grep -E '^http.*'`" != "" ]; then
     theme_repo=`basename $THEME`
     THEME_DIR="$HOME/.oh-my-zsh/custom/themes/$theme_repo"
-    git clone $THEME $THEME_DIR
+    proxychains4 git clone $THEME $THEME_DIR
     theme_name=`cd $THEME_DIR; ls *.zsh-theme | head -1` 
     theme_name="${theme_name%.zsh-theme}"
     THEME="$theme_repo/$theme_name"
@@ -151,6 +151,6 @@ zshrc_template "$HOME" "$THEME" "$plugin_list" > $HOME/.zshrc
 
 # Install powerlevel10k if no other theme was specified
 if [ "$THEME" = "powerlevel10k/powerlevel10k" ]; then
-    git clone https://github.com/romkatv/powerlevel10k $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+    proxychains4 git clone https://github.com/romkatv/powerlevel10k $HOME/.oh-my-zsh/custom/themes/powerlevel10k
     powerline10k_config >> $HOME/.zshrc
 fi
