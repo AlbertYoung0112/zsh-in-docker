@@ -74,7 +74,7 @@ install_dependencies() {
             $Sudo rm zsh-5.1-1.gf.el7.x86_64.rpm
         ;;
         *)
-            $Sudo apt-get update; exit 0
+            $Sudo apt-get update || true
             $Sudo apt-get -y install git curl zsh locales
             if [ "$VERSION" != "14.04" ]; then
                 $Sudo apt-get -y install locales-all
